@@ -167,8 +167,6 @@ def main():
                         EC.get_deduplication(config.correct_data)
 
                     del DG, EC
-                    #MM.measure()
-                    #gc.collect()
                     ############################
                     DataAnalysis(logger, config).evaluation()  
 
@@ -176,8 +174,6 @@ def main():
                     bcool_dir = os.path.join(config.result_dir, 'bcool/')
                     if os.path.exists(bcool_dir):
                         os.system("rm -rf %s" % bcool_dir)
-                    #MM.measure()
-                    #MM.stop()
                     ###############################################################
                     # if config.high_ambiguous:
                     #     if read_min_len > config.min_read_len:
@@ -232,15 +228,13 @@ def main():
 
                     isolates_file, non_isolates_file, read_max_len, read_min_len, genuine_df, ambiguous_df = DG.simplify_data_files(config.input_file, edit_dis=1)      
                     config.read_max_len = read_max_len
-                    #MM.measure()
-                    #gc.collect()
+
                     ###############################################################
                     EC = ErrorCorrection(logger, config)
                     corrected_file = EC.simplify_correction(isolates_file, non_isolates_file, genuine_df, ambiguous_df)
                     
                     # genuine_df, ambiguous_df = DG.simplify_data_files(config.input_file, edit_dis=2) 
                     # config.correct_data = EC.simplify_2nt_correction(config.input_file, genuine_df, ambiguous_df)
-
                     if read_min_len > config.min_read_len:
                         genuine_df, ambiguous_df = DG.simplify_data_files(corrected_file, edit_dis=2) 
                         config.correct_data = EC.simplify_2nt_correction(corrected_file, genuine_df, ambiguous_df)
@@ -250,16 +244,13 @@ def main():
                     if config.deduplication:
                         EC.get_deduplication(config.correct_data)
                     del DG, EC
-                    #MM.measure()
-                    #gc.collect()
+
                     ###################################
                     DataAnalysis(logger, config).evaluation()  
                     # delete bcool result
                     bcool_dir = os.path.join(config.result_dir, 'bcool/')
                     if os.path.exists(bcool_dir):
-                        os.system("rm -rf %s" % bcool_dir) 
-                    #MM.measure()
-                    #MM.stop()        
+                        os.system("rm -rf %s" % bcool_dir)       
 ############################################################################################################################
                 elif module_arg == "amplicon_correction": 
                     if c_lst:
@@ -320,8 +311,6 @@ def main():
                     else:
                         isolates_file, non_isolates_file, unique_seqs, read_max_len, read_min_len, genuine_df, negative_df, ambiguous_df = DG.data_files(edit_dis=1)      
                     config.read_max_len = read_max_len
-                    #MM.measure()
-                    #gc.collect()
                     ###############################################################
                     EC = ErrorCorrection(logger, config)
                     ## one model to predict
@@ -349,16 +338,12 @@ def main():
                         EC.get_deduplication(config.correct_data)
 
                     del DG, EC
-                    #MM.measure()
-                    #gc.collect()
                     ########################################
                     DataAnalysis(logger, config).evaluation()
                     # delete bcool result
                     bcool_dir = os.path.join(config.result_dir, 'bcool/')
                     if os.path.exists(bcool_dir):
                         os.system("rm -rf %s" % bcool_dir)
-                    #MM.measure()
-                    #MM.stop()
 ############################################################################################################################
                 elif module_arg == "umi_correction": 
                     if c_lst:

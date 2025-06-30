@@ -945,37 +945,23 @@ class DataGneration():
         Returns:
             MultiVariables: MultiVariables for next step error correction
         """
-        #self.MM.start()
-        # 1nt-edit-distance-based graph
-        # self.logger.info("-------------------------------------------------------------")
-        # self.logger.info("1nt-edit-distance read graph error correction")
         if edit_dis == 1:
             graph, seqs_lens_lst, seqs2id_dict, unique_seqs = self.generate_graph(input_f, edit_dis)
+            self.graph_summary(graph)
             seq_max_len = max(seqs_lens_lst)
             seq_min_len = min(seqs_lens_lst)
             self.logger.debug(seqs_lens_lst)
             self.logger.debug("Reads Max length: {}".format(seq_max_len))
             self.logger.debug("Reads Min length: {}".format(seq_min_len))
-            #self.MM.measure()
             genuine_df, ambiguous_df = self.extract_simplify_genuine_ambi_errs(graph, edit_dis)
-            #self.MM.measure()
             isolates_file, non_isolates_file = self.extract_isolates(self.config.input_file, graph, unique_seqs, seqs2id_dict)
             del graph
-            #self.MM.measure()
-            #self.MM.stop()
-            #gc.collect()
             return isolates_file, non_isolates_file, seq_max_len, seq_min_len, genuine_df, ambiguous_df
         elif edit_dis == 2:
             self.logger.debug(input_f)
-            # if self.seq_min_len > 30:   
-            self.logger.info("Constructing 2nt-edit-distance based graph.")
             graph, unique_seqs = self.generate_graph(input_f, edit_dis=2)
             self.graph_summary(graph)  
-            #self.MM.measure()
             genuine_df, ambiguous_df = self.extract_simplify_genuine_ambi_errs(graph, edit_dis)
-            #self.MM.measure()
-            #self.MM.stop()
-            #gc.collect()
             return genuine_df, ambiguous_df       
 
     def extract_isolated_negatives(self, graph, edit_dis):

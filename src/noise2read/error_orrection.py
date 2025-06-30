@@ -85,16 +85,12 @@ class ErrorCorrection():
         Returns:
             str: corrected data filename including path
         """
-        ##self.MM.start()
         if not genuine_df.empty and not ambiguous_df.empty:
             genuine_ambi_errs_df = self.simplify_ambiguous_err_prediction(genuine_df, ambiguous_df)
-            ##self.MM.measure()
             correct_file = self.all_in_one_2nt_correct_errors(data_set, genuine_ambi_errs_df)
             os.system("rm %s" % data_set)
             del genuine_ambi_errs_df
             self.logger.info("Error Correction finished.")
-            ##self.MM.measure()
-            ##self.MM.stop()
             return correct_file
         else:
             return data_set
