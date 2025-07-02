@@ -1126,7 +1126,7 @@ class DataGneration():
         self.logger.debug("Searching edges for constructing " + str(edit_dis) + "nt-edit-distance read graph...")
         #############################################################################################################
         chunk_size = highseq_num // self.config.reads_chunks_num
-
+        self.logger.info(f"The number of high frequency reads: {highseq_num} and preset chunk number: {self.config.reads_chunks_num},then chunk size is {chunk_size}.")
         if self.config.reads_chunks_num == 1 or chunk_size <= 1:
             try:
                 with WorkerPool(self.config.num_workers, shared_objects=shared_unique_seqs, start_method='fork') as pool:
@@ -1136,12 +1136,9 @@ class DataGneration():
                     elif edit_dis == 2:
                         for edge_lst in pool.imap(self.real_ed2_seqs, high_freq):
                             edges_lst.extend(edge_lst)
-                # #gc.collect()
             except KeyboardInterrupt:
-                # Handle termination signal (Ctrl+C)
                 pool.terminate()  # Terminate the WorkerPool before exiting
             except Exception:
-                # Handle other exceptions
                 pool.terminate()  # Terminate the WorkerPool before exiting
                 raise
         elif chunk_size > 1:
